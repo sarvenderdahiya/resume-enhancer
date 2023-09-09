@@ -1,0 +1,152 @@
+<!-- <!DOCTYPE html>
+<head>
+  <title>OpenAI</title>
+  <link
+    rel="shortcut icon"
+    href="{{ url_for('static', filename='dog.png') }}"
+  />
+  <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}" />
+</head>
+
+<body>
+  <img src="{{ url_for('static', filename='dog.png') }}" class="icon" />
+  <h4>Name my pet</h4>
+  <form action="/" method="post">
+    <input type="text" name="animal1" placeholder="Enter an animal" />
+    <input type="text" name="animal2" placeholder="Enter another Animal" />
+    <input type="submit" value="Generate names" />
+
+  </form>
+
+</body> -->
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <title>CV & Job Description Analyzer</title>
+  <style>
+    body {
+      background-color: #f7f7f7;
+      font-family: 'Arial', sans-serif;
+    }
+    .container {
+      padding: 40px 0;
+    }
+    .input-container, .result {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .btn {
+
+      position: relative;
+      top: 50%;
+      left: 50%;
+      background-color: #007bff;
+      color: #fff;
+      cursor: pointer;
+      translate: -50%;
+    }
+    .btn:hover {
+      background-color: #0056b3;
+    }
+    /* Loading */
+    .loading {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255,255,255,0.8);
+      z-index: 9999;
+    }
+    .loading img {
+      width: 400px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .loading p {
+      position: absolute;
+      top: 60%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 24px;
+    }
+    .resultSection {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      padding: 40px;
+      margin-bottom: 20px;
+      margin-left: 10%;
+      margin-right: 10%;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="input-container">
+      <h2 style="text-align: center;">Job Description</h2>
+      <textarea id="jd" rows="6" class="form-control" placeholder="Paste the job description here"></textarea>
+    </div>
+    <div class="input-container">
+      <h2 style="text-align: center;">CV</h2>
+      <textarea id="cv" rows="6" class="form-control" placeholder="Paste the CV here"></textarea>
+    </div>
+    <button class="btn btn-lg">Analyze</button>
+  </div>
+
+  <div class="loading">
+    <img src="{{url_for('static', filename = 'loader.gif')}}">
+    <p>Working on your CV.</p>
+  </div>
+
+  <div class="resultSection" style="display: none; visibility: hidden;">
+    {% if result %}
+    <div>
+      <h3 style="text-align: center;"><u> Analyzed Results</u></h>
+      <br/><br/>
+      <h4>Top 5 Missing Skills:</h4>
+      {{result[0]}}
+      <br/><br/>
+      <h4>Missing Responsibility from CV:</h4>
+      {{result[1]}}
+      <br/><br/>
+      <h4>Existing Experience to be Changed:</h4>
+      {{result[2]}}
+      <br/><br/>
+      <h4>New Experience Suggested:</h4>
+      <i>{{result[3]}}</i>
+      
+    </div>
+    {% endif %}
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/confetti-js@0.0.18/dist/index.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $(".btn").on("click", function() {
+        $(".loading").fadeIn();
+        setTimeout(() => {
+          $(".loading").fadeOut();
+          $('.resultSection').css({'display' : 'block', 'visibility' : 'visible'})
+        }, 3000);
+      });
+    });
+  </script>
+</body>
+</html>
