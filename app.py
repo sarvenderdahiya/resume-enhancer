@@ -15,11 +15,11 @@ pattern = "|".join(map(re.escape, phrases))
 @app.route("/", methods=("GET", "POST"))
 def index():
     if request.method == "POST":
-        animal1 = request.form["animal1"]
-        animal2 = request.form["animal2"]
+        jd = request.form["jd"]
+        cv = request.form["cv"]
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
-            messages=generate_prompt(animal1, animal2),
+            messages=generate_prompt(jd, cv),
             temperature=0.6,
         )
         full_res =  json.dumps(response, indent=4)
@@ -33,18 +33,7 @@ def index():
     return render_template("index.html", result=parts)
 
 
-def generate_prompt(animal1, animal2):
-#     return """
-# Animal1: Cat
-# Names for Animal1: Captain Sharpclaw, Agent Fluffball
-# Animal2: Dog
-# Names for animal2: Ruff the Protector, Wonder Canine
-
-# Suggest two names for {} and two names for {} that is a superhero.
-
-# Names:""".format(
-#         animal1.capitalize(), animal2.capitalize()
-#     )
+def generate_prompt(jd, cv):
     return [
     { "role" : "user", "content" : """ Job Description:
      {}
@@ -60,6 +49,6 @@ Give me previous experince and the new suggested experience.
 
 I want the output very concise. 
 First give me just the list of top 5 missing skills
-Then give me the missing responsibility from CV, the existing experience to be changed, and the new experience suggested. Do not give any notes or anything else other than the specified things above.""".format(animal1,animal2)}
+Then give me the missing responsibility from CV, the existing experience to be changed, and the new experience suggested. Do not give any notes or anything else other than the specified things above.""".format(jd,cv)}
     ]
     
